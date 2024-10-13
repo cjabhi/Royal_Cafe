@@ -22,9 +22,6 @@ app.use(cors())
 connectDB();
 
 
-console.log(process.env.STRIPE_SECRET_KEY);
-console.log(process.env.JWT_SECRET);
-
 
 
 // api endpoints
