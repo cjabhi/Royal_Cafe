@@ -19,6 +19,8 @@ const PlaceOrder = () => {
     phone:""
   })
 
+  const [payment_type , setPayment_type] = useState("stripe");
+
   const onchangeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -40,12 +42,20 @@ const PlaceOrder = () => {
       address:data,
       items: orderItems,
       amount: getTotalCartAmount() + 40,
+      payment_type:payment_type,
     }
 
     let response = await axios.post(url + "/api/order/place" , orderData , {headers:{token}});
     if(response.data.success) {
       const {session_url} = response.data;
-      window.location.replace(session_url);
+      const {redirect_url} = response.data;
+      if(redirect_url)
+      {
+        window.location.replace(redirect_url)
+      }
+      else{
+        window.location.replace(session_url);
+      }
     }
     else {
       alert("Error");
@@ -56,6 +66,7 @@ const PlaceOrder = () => {
   }
 
   const navigate = useNavigate();
+
 
   useEffect(() => {
     return () => {
@@ -107,6 +118,18 @@ const PlaceOrder = () => {
               <div className="cart-total-details">
                 <b>Total</b>
                 <b>{getTotalCartAmount()===0?0:getTotalCartAmount()+40}Rs</b>
+              </div>
+              <div className='payment-type' >
+              <label onClick={() => setPayment_type("cod")}>
+                <input name="payment-type" type="radio" />
+                <span class="custom-radio"></span> 
+                COD (Cash on delivery)
+              </label>
+              <label onClick={() => setPayment_type("stripe")}>
+                <input name="payment-type" type="radio" defaultChecked />
+                <span class="custom-radio"></span> 
+                Stripe (Credit/Debit)
+              </label>
               </div>
               <button type='submit' >PROCEED TO PAYMENT</button>
             </div>
