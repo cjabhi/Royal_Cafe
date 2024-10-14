@@ -35,7 +35,7 @@ const MyOrders = () => {
         <div className="container">
         {
             data.map((order, index) => 
-                order.payment === true ? (
+                 (
                     <div key={index} className='my-orders-order'>
                         <img src={assets.parcel_icon} alt="" />
                         <p>
@@ -52,7 +52,7 @@ const MyOrders = () => {
                         </p>
                         <button onClick={fetchOrders} >Track Order</button>
                     </div>
-                ) : null
+                ) 
             )
         }
         </div>
