@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: my-react-app
+    env: static
+    staticPublishPath: public # or the directory containing your React app
+    routes:
+      - type: rewrite
+        source: "/*"
+        destination: "/index.html"
